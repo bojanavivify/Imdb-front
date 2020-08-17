@@ -28,16 +28,7 @@ export default {
         },
           (error) => {
             console.log(error.response.data)
-            if (typeof (error.response.data.errors) !== 'undefined') {
-              if(typeof(error.response.data.errors.email) !== 'undefined'){
-                return error.response.data.errors.email[0];
-              }else if(typeof(error.response.data.errors.password) !== 'undefined'){
-                return error.response.data.errors.password[0];
-              }
-              return error.response.data.errors.email;
-            } else if (typeof (error.response.data.error) !== 'undefined') {
-              return error.response.data.error;
-            }
+            return error.response.data.message;
           });
     },
     sendLogoutRequest({ commit }) {
@@ -54,13 +45,9 @@ export default {
           return 0;
         },
           (error) => {
-            console.log(error.response.data.errors)
-            console.log(error.response.data.errors.email)
-            if (typeof (error.response.data.errors.email) !== 'undefined') {
-              return error.response.data.errors.email;
-            } else if (typeof (error.response.data.errors.password) !== 'undefined') {
-              return error.response.data.errors.password;
-            }
+            console.log(error.response.data.message)
+            return error.response.data.message;
+
           })
     },
   }
