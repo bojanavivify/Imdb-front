@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 import Logout from '../components/Logout.vue'
-
+import Movie from '../views/Movie.vue'
 
 const guest = (to, from, next) => {
   if (localStorage.getItem("authToken")== null) {
@@ -44,6 +44,13 @@ const routes = [
     name: 'Logout',
     beforeEnter: auth,
     component: Logout
+  },
+  {
+    path: '/movie/:title',
+    name: 'Movie',
+    beforeEnter: auth,
+    component: Movie,
+    props: true 
   },
 ]
 
