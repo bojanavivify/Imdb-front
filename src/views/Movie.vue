@@ -3,7 +3,7 @@
   <section class="movie">
     <div class="container">
       <h1>{{title}}</h1>
-      <p><b><i>Gender:</i></b> {{name_genre}}</p>
+      <p><b><i>Genre:</i></b> {{name_genre}}</p>
       <p>{{description}}</p>
       <img v-bind:src="image_url" />
     </div>
