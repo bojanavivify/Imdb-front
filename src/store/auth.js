@@ -32,7 +32,7 @@ export default {
           });
     },
     sendLogoutRequest({ commit }) {
-      axios.get(process.env.VUE_APP_API_URL + "auth/logout").then(() => {
+      return axios.get(process.env.VUE_APP_API_URL + "auth/logout").then(() => {
         commit("setUserData", null);
         localStorage.removeItem("authToken");
       });
