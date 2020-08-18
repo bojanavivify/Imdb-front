@@ -56,6 +56,7 @@ export default {
   float: left;
   width: 25%;
   padding: 0 10px;
+  padding-bottom: 10px;
 }
 
 /* Remove extra left and right margins, due to padding */
@@ -85,6 +86,13 @@ export default {
   padding: 16px;
   text-align: center;
   background-color: #f1f1f1;
+  transition: transform .2s;
+  margin: 0 auto;
+
+}
+
+.zoom:hover {
+  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 .image {
