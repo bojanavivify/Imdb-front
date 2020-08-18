@@ -1,6 +1,8 @@
 <template>
   <h1 align="center">Imdb for Movies</h1>
-  <br />
+  <br/>
+  Search: <input type="text" v-model="search"/>
+  <br><br><br>
   <div class="row">
     <div class="column" v-for="movie in showMovies" :key="movie">
       <div class="card" style="cursor:pointer;" @click="getMovie(movie)">
@@ -10,7 +12,7 @@
       </div>
     </div>
     <br />
-    <div class="nav">
+    <div class="nav" v-show="search ==''">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li class="page-item">
@@ -38,6 +40,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import _ from 'lodash';
 
 export default {
   name: "Home",
@@ -50,10 +53,11 @@ export default {
       page: 1,
       perPage: 12,
       pages: [],
+      search: ''
     };
   },
   methods: {
-    ...mapActions("movies", ["getMovies"]),
+    ...mapActions("movies", ["getMovies", "searchForMovies"]),
     async getAllMovies() {
       const data = await this.getMovies();
       this.movies = data;
@@ -67,7 +71,6 @@ export default {
     },
     getMovie(oneMovie) {
       const path = "/movie/" + oneMovie.title;
-      console.log(oneMovie.description);
       this.$router.push({
         path: path,
         params: {
@@ -85,12 +88,21 @@ export default {
       }
     },
     paginate() {
-      console.log("Uslo u paginate");
       let page = this.page;
       let perPage = this.perPage;
       let from = page * perPage - perPage;
       let to = page * perPage;
       return this.movies.slice(from, to);
+    },
+    searchMovies: _.debounce(function (e) {
+    this.findSearchlMovies();
+    }, 750),
+    async findSearchlMovies() {
+      const data = await this.searchForMovies(this.search);
+      this.movies = data;
+      this.setPages();
+
+      console.log(data);
     },
   },
   computed: {
@@ -102,6 +114,11 @@ export default {
   watch: {
     movies() {
       this.setPages();
+    },
+    search : function(value) {
+      this.search = value;
+      this.searchMovies();
+      console.log(this.search);
     },
   },
 };
