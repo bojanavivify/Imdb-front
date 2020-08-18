@@ -117,7 +117,9 @@ export default {
 
 /* Remove extra left and right margins, due to padding */
 .row {
-  margin: 0 -5px;
+  margin: 0 5px;
+  padding-left: 30px;
+  width: 99.5%;
 }
 
 /* Clear floats after the columns */
