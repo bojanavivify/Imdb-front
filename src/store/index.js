@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import auth from "./auth";
 import movies from "./movies";
+import genre from "./genre";
 
 
 export default createStore({
@@ -12,6 +13,7 @@ export default createStore({
   },
   modules: {
     auth,
-    movies
+    movies,
+    genre
   }
 })

@@ -40,11 +40,13 @@ export default {
     },
     getMovie(oneMovie){
       const path = '/movie/' + oneMovie.title;
+      console.log(oneMovie.description)
       this.$router.push({path: path, 
-      props: {
+      params: {
         title: oneMovie.title,
         description: oneMovie.description,
         image_url: oneMovie.image_url,
+        genre_id: oneMovie.genre_id
       }});
     }
   },
