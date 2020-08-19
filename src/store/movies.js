@@ -52,5 +52,18 @@ export default {
                     console.log("error")
                 });
         },
+
+        filterMovies({commit}, filter) {
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get( process.env.VUE_APP_API_URL + "movies/filter/" + filter, { headers })
+                .then(function (response) {
+                    commit("setMoviesData", response.data);
+                    return response.data;
+                })
+                .catch(() => {
+                    console.log("error")
+                });
+        },
     }
 };

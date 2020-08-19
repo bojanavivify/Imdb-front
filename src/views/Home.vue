@@ -1,8 +1,15 @@
 <template>
   <h1 align="center">Imdb for Movies</h1>
-  <br/>
-  Search: <input type="text" v-model="search"/>
-  <br><br><br>
+  <br />Search:
+  <input class="menu" type="text" v-model="search" />
+  Filter:
+  <select id="categories" v-model="selectedValue">
+    <option v-for="genre in genres" :key="genre" 
+    :value="genre.id">{{ genre.name }}</option>
+  </select>
+  <br />
+  <br />
+  <br />
   <div class="row">
     <div class="column" v-for="movie in movies" :key="movie">
       <div class="card" style="cursor:pointer;" @click="getMovie(movie)">
@@ -16,8 +23,12 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li class="page-item">
-            <button type="button" class="page-link" 
-            v-if="page != 1" @click="previousPage()">Previous</button>
+            <button
+              type="button"
+              class="page-link"
+              v-if="page != 1"
+              @click="previousPage()"
+            >Previous</button>
           </li>
           <li class="page-item">
             <button
@@ -29,8 +40,12 @@
             >{{pageNumber}}</button>
           </li>
           <li class="page-item">
-            <button type="button" @click="nextPage()" 
-            v-if="page < pages.length" class="page-link">Next</button>
+            <button
+              type="button"
+              @click="nextPage()"
+              v-if="page < pages.length"
+              class="page-link"
+            >Next</button>
           </li>
         </ul>
       </nav>
@@ -40,12 +55,13 @@
 
 <script>
 import { mapActions } from "vuex";
-import _ from 'lodash';
+import _ from "lodash";
 
 export default {
   name: "Home",
   created() {
     this.getAllMovies();
+    this.getAllGenres();
   },
   data() {
     return {
@@ -56,17 +72,23 @@ export default {
       count_movies: null,
       next_url: null,
       previous_url: null,
-      search: '',
+      search: "",
+      genres: null,
+      selectedValue: null,
     };
   },
   methods: {
-    ...mapActions("movies", ["getMovies", "searchForMovies", "getNextPage"]),
+    ...mapActions("movies", ["getMovies", "searchForMovies", "getNextPage", "filterMovies"]),
+    ...mapActions("genre", ["getAllGenre"]),
     async getAllMovies() {
       const data = await this.getMovies();
       this.movies = data.data;
       this.count_movies = data.total;
       this.next_url = data.next_page_url;
-      console.log(data);
+    },
+    async getAllGenres() {
+      const data = await this.getAllGenre();
+      this.genres = data;
     },
     trucateText(value) {
       const length = 230;
@@ -92,54 +114,62 @@ export default {
         this.pages.push(index);
       }
     },
-    async nextPage(){
+    async nextPage() {
       const data = await this.getNextPage(this.next_url);
-      this.getData(data.data,data.next_page_url,data.prev_page_url);
+      this.getData(data.data, data.next_page_url, data.prev_page_url);
       this.page++;
       window.scrollTo(0, 0);
-
     },
-    async previousPage(){
+    async previousPage() {
       const data = await this.getNextPage(this.previous_url);
-      this.getData(data.data,data.next_page_url,data.prev_page_url);
+      this.getData(data.data, data.next_page_url, data.prev_page_url);
       this.page--;
       window.scrollTo(0, 0);
     },
-    async specificPage(symbol){
-      const url = this.next_url.substring(0, this.next_url.length-1) + symbol;
+    async specificPage(symbol) {
+      const url = this.next_url.substring(0, this.next_url.length - 1) + symbol;
       const data = await this.getNextPage(url);
-      this.getData(data.data,data.next_page_url,data.prev_page_url);
+      this.getData(data.data, data.next_page_url, data.prev_page_url);
       const n = symbol - this.page;
       this.page = this.page + n;
       window.scrollTo(0, 0);
     },
-    getData(data,next_page_url,prev_page_url){
-      this.movies =data;
+    getData(data, next_page_url, prev_page_url) {
+      this.movies = data;
       this.next_url = next_page_url;
       this.previous_url = prev_page_url;
     },
     searchMovies: _.debounce(function (e) {
-    this.findSearchMovies();
+      this.findSearchMovies();
     }, 750),
-    async findSearchMovies(){
+    async findSearchMovies() {
       const data = await this.searchForMovies(this.search);
       this.movies = data.data;
       this.count_movies = data.total;
       this.next_url = data.next_page_url;
       this.setPages();
     },
-  },
-  computed: {
-  },
-  watch: {
-    movies() {
-      this.pages=[];
+    async filter(){
+      const data = await this.filterMovies(this.selectedValue);
+      this.movies = data.data;
+      this.count_movies = data.total;
+      this.next_url = data.next_page_url;
       this.setPages();
     },
-    search : function(value) {
+  },
+  computed: {},
+  watch: {
+    movies() {
+      this.pages = [];
+      this.setPages();
+    },
+    search: function (value) {
       this.search = value;
       this.searchMovies();
-      console.log(this.search);
+    },
+    selectedValue: function(value){
+      this.selectedValue = value;
+      this.filter();
     },
   },
 };
@@ -213,5 +243,8 @@ button.page-link {
 .nav {
   padding-left: 100px;
   margin: 20px auto;
+}
+.menu {
+  margin-right: 30px;
 }
 </style>>
