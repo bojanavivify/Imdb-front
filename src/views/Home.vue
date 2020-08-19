@@ -125,37 +125,6 @@ export default {
       this.next_url = data.next_page_url;
       this.setPages();
     },
-    
-    // paginate() {
-    //   let page = this.page;
-    //   let perPage = this.perPage;
-    //   let from = page * perPage - perPage;
-    //   let to = page * perPage;
-    //   return this.movies.slice(from, to);
-    // },
-    // searchMovies: _.debounce(function (e) {
-    // this.findSearchlMovies();
-    // }, 750),
-    // async findSearchlMovies() {
-    //   const data = await this.searchForMovies(this.search);
-    //   this.pages = [];
-    //   this.movies = data.data;
-    //   this.checkNextPage(data.next_page_url);
-    //   console.log("Uslo")
-    //   console.log(data);
-    // },
-    // async getPage(){
-    //   const data = await this.getNextPage(this.next_page_url);
-    //   this.movies = data.data;
-    // },
-    // checkNextPage(next_page_url){
-    //    if(next_page_url!= null){
-    //     this.next_page_url = next_page_url;
-    //     this.search_next = true
-    //   }else{
-    //     this.search_next = false
-    //   }
-    // }
   },
   computed: {
   },
