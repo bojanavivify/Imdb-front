@@ -62,6 +62,7 @@ export default {
   created() {
     this.getAllMovies();
     this.getAllGenres();
+    this.getUser();
   },
   data() {
     return {
@@ -75,11 +76,13 @@ export default {
       search: "",
       genres: null,
       selectedValue: null,
+      user_id: null,
     };
   },
   methods: {
     ...mapActions("movies", ["getMovies", "searchForMovies", "getNextPage", "filterMovies"]),
     ...mapActions("genre", ["getAllGenre"]),
+    ...mapActions("auth", ["getUserData"]),
     async getAllMovies() {
       const data = await this.getMovies();
       this.movies = data.data;
@@ -89,6 +92,10 @@ export default {
     async getAllGenres() {
       const data = await this.getAllGenre();
       this.genres = data;
+    },
+    async getUser() {
+      const data = await this.getUserData();
+      this.user_id = data.id;
     },
     trucateText(value) {
       const length = 230;
@@ -105,6 +112,8 @@ export default {
           description: oneMovie.description,
           image_url: oneMovie.image_url,
           genre_id: oneMovie.genre_id,
+          movie_id: oneMovie.id,
+          user_id: this.user_id,
         },
       });
     },

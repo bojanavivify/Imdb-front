@@ -50,5 +50,17 @@ export default {
 
           })
     },
+    getUserData({ commit }) {
+      const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+      return axios
+        .get(process.env.VUE_APP_API_URL + "auth/me", { headers })
+        .then(function (response) {
+          commit("setUserData", response.data);
+          return response.data;
+        })
+        .catch(() => {
+          localStorage.removeItem("authToken");
+        });
+    },
   }
 };
