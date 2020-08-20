@@ -45,7 +45,7 @@ import { mapActions } from "vuex";
     },
     methods: {
       ...mapActions("genre", ["getGenre"]),
-      ...mapActions("votes", ["getMovieVotes", "getUVote", "createVote", "updateVote"]),
+      ...mapActions("votes", ["getMovieVotes", "getUVote", "createVote", "updateVote", "deleteVote"]),
       async foundGenre(){
         const data = await this.getGenre(this.genre_id);
         this.name_genre = data.name;
@@ -72,11 +72,12 @@ import { mapActions } from "vuex";
           if(this.userVote[0].vote != message){
             this.updateVotes(this.userVote[0].vote,message);
           }else if(this.userVote[0].vote == message){
-            this.deleteVote(message);
+            this.deleteVotes(message);
           }
         }
       },
       async newVote(message){
+        console.log("Uslo");
         const fData = {vote: message, 
             movies_id:this.movie_id, user_id: this.user_id}
         await this.createVote(fData);
@@ -89,25 +90,22 @@ import { mapActions } from "vuex";
         const all = {"id": this.userVote[0].id, "data": fData};
         await this.updateVote(all);
         this.setDataLikeDislike(message);
-        if(message == 'like' && vote!='none'){
+        if(message == 'like'){
           this.totalDislike--;
-        }else if (message == 'dislike' && vote!='none'){
+        }else{
           this.totallike--;
         }
         this.getUserVote();
       },
-      async deleteVote(message){
+      async deleteVotes(message){
         if(message == 'like'){
           this.totallike--;
         }else{
           this.totalDislike--;
         }
-        message = 'none';
-        const fData ={"vote": message};
-        const all = {"id": this.userVote[0].id, "data": fData};
-        await this.updateVote(all);
-        this.getUserVote();
+        await this.deleteVote(this.userVote[0].id);
         this.visible = false;
+        this.userVote = [];
 
       },
       setDataLikeDislike(message){

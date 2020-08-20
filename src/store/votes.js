@@ -74,5 +74,21 @@ export default {
               return error.response.data.message;
             })
       },
+
+      deleteVote({ commit }, id) {
+        const headers = { 
+            'Authorization' : 'Bearer ' + localStorage.getItem("authToken"),
+        };
+
+        console.log(commit)
+        return axios
+          .delete(process.env.VUE_APP_API_URL + "votes/" + id, { headers })
+          .then(response => {
+            return response.data;
+          },
+            (error) => {
+              return error.response.data.message;
+            })
+      },
   }
 };
