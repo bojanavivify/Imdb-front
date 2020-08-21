@@ -3,6 +3,8 @@ import auth from "./auth";
 import movies from "./movies";
 import genre from "./genre";
 import votes from "./votes";
+import comment from "./comment";
+
 
 export default createStore({
   state: {
@@ -15,6 +17,7 @@ export default createStore({
     auth,
     movies,
     genre,
-    votes
+    votes,
+    comment
   }
 })

@@ -4,8 +4,7 @@
   <input class="menu" type="text" v-model="search" />
   Filter:
   <select id="categories" v-model="selectedValue">
-    <option v-for="genre in genres" :key="genre" 
-    :value="genre.id">{{ genre.name }}</option>
+    <option v-for="genre in genres" :key="genre" :value="genre.id">{{ genre.name }}</option>
   </select>
   <br />
   <br />
@@ -80,7 +79,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions("movies", ["getMovies", "searchForMovies", "getNextPage", "filterMovies"]),
+    ...mapActions("movies", [
+      "getMovies",
+      "searchForMovies",
+      "getNextPage",
+      "filterMovies",
+    ]),
     ...mapActions("genre", ["getAllGenre"]),
     ...mapActions("auth", ["getUserData"]),
     async getAllMovies() {
@@ -158,7 +162,7 @@ export default {
       this.next_url = data.next_page_url;
       this.setPages();
     },
-    async filter(){
+    async filter() {
       const data = await this.filterMovies(this.selectedValue);
       this.movies = data.data;
       this.count_movies = data.total;
@@ -176,7 +180,7 @@ export default {
       this.search = value;
       this.searchMovies();
     },
-    selectedValue: function(value){
+    selectedValue: function (value) {
       this.selectedValue = value;
       this.filter();
     },
