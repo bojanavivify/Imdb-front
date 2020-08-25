@@ -2,6 +2,7 @@
   <section class="movie">
     <div class="container">
       <h1>{{title}}</h1>
+      <p>Page view: {{page_view}}</p>
       <div class="container">
         <p id="success"></p>
         <a @click="changePost('like')">
@@ -106,6 +107,7 @@ import { mapActions } from "vuex";
       this.getAllComments();
       this.checkWatchList();
       this.getDefaultWatchList();
+      this.incrementView();
     },
     data () {
       return {
@@ -126,6 +128,7 @@ import { mapActions } from "vuex";
         messageWatchList: null,
         item_id:null,
         default_id: null,
+        page_view: null
       }
     },
     methods: {
@@ -133,6 +136,7 @@ import { mapActions } from "vuex";
       ...mapActions("votes", ["getMovieVotes", "getUVote", "createVote", "updateVote", "deleteVote"]),
       ...mapActions("comment", ["getMovieComments", "getNextPage", "deleteSpecComment", "createNewComment"]),
       ...mapActions("watchList", ["getDefault","checkMovieWatchList", "deleteItemWatchList", "addItemWatchList"]),
+      ...mapActions("movies",["incrementMovieView"]),
       async foundGenre(){
         const data = await this.getGenre(this.genre_id);
         this.name_genre = data.name;
@@ -257,6 +261,12 @@ import { mapActions } from "vuex";
       async getDefaultWatchList(){
         const data = await this.getDefault(this.user_id);
         this.default_id = data.id;
+      },
+      async incrementView(){
+        const fData ={"movie_id": this.movie_id};
+        const data = await this.incrementMovieView(fData);
+        console.log(data);
+        this.page_view = data.page_view;
       },
     },
     computed: {

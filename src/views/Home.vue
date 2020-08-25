@@ -13,7 +13,8 @@
     <div class="column" v-for="movie in movies" :key="movie">
       <div class="card" style="cursor:pointer;" @click="getMovie(movie)">
         <h3>{{movie.title}}</h3>
-        <p>{{trucateText(movie.description)}}</p>
+        <p>{{trucateText(movie.description)}}</p><br/>
+        <p>Page view: {{movie.page_view}}</p>
         <img class="image" v-bind:src="movie.image_url" />
       </div>
     </div>
@@ -117,7 +118,7 @@ export default {
           image_url: oneMovie.image_url,
           genre_id: oneMovie.genre_id,
           movie_id: oneMovie.id,
-          user_id: this.user_id,
+          user_id: this.user_id
         },
       });
     },

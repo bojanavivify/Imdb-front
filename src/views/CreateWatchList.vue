@@ -35,7 +35,7 @@
       </div>
       <p>Add movies:</p>
       <input class="menu" type="text" v-model="search" />
-      <div @click="addMovieWatchList(movie.id)" class="movie" v-for="movie in movies" :key="movie">
+      <div @click="addMovieWatchList(movie.id)" class="movies" v-for="movie in movies" :key="movie">
         <h3>{{movie.title}}</h3>
         <p>{{trucateText(movie.description)}}</p>
         <img class="image-a" v-bind:src="movie.image_url" />
@@ -158,7 +158,7 @@
   height: 50px;
 }
 
-.movie{
+.movies{
   border: 3px solid black;
   cursor: pointer;
   margin-top: 20px;
