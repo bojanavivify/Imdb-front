@@ -21,26 +21,58 @@
         </b>
         {{name_genre}}
       </p>
+      <div v-show="onWatchList">
+        <div v-show="messageWatchList == 'to watch'">
+          <img src="@/assets/past.png" />
+          {{messageWatchList}}
+        </div>
+        <div v-show="messageWatchList == 'watched'">
+          <img src="@/assets/tick.png" />
+          {{messageWatchList}}
+        </div>
+      </div>
       <p>{{description}}</p>
       <img v-bind:src="image_url" />
+      <br />
+      <div style="margin-top:20px;">
+        <div v-show="onWatchList">
+          <button class="btn btn-success" @click="deleteItem()">
+            Alreday added to watch list
+            <img style="margin-left:10px;" src="@/assets/tick.png" />
+          </button>
+        </div>
+        <div v-show="!onWatchList">
+          <button class="btn btn-success" @click="addItem()">
+            <img style="margin-right:10px;" src="@/assets/plus.png" />
+            Add to watch list
+          </button>
+        </div>
+      </div>
     </div>
     <br />
     <div class="comment">
-      <h3>Comments:</h3><br/>
+      <h3>Comments:</h3>
+      <br />
       <div>
         <textarea rows="6" cols="70" v-model="new_text"></textarea>
-        <button class="btn btn-dark btn-lg btn-block" 
-                style="width:50%;margin-left:25%;"
-                @click="createComment()">Leave a comment</button>
+        <button
+          class="btn btn-dark btn-lg btn-block"
+          style="width:50%;margin-left:25%;"
+          @click="createComment()"
+        >Leave a comment</button>
       </div>
-      <br/>
+      <br />
       <div v-for="comment in comments" :key="comment">
         <div class="single">
-          <p><i style="margin-right:50px;">{{comment.name}} {{comment.created_at}}</i>  
-            <a @click="deleteComment(comment.id)"><i class="fa fa-trash" 
-            v-if="comment.user_id == user_id"></i></a>
+          <p>
+            <i style="margin-right:50px;">{{comment.name}} {{comment.created_at}}</i>
+            <a @click="deleteComment(comment.id)">
+              <i class="fa fa-trash" v-if="comment.user_id == user_id"></i>
+            </a>
           </p>
-          <p><b>{{comment.text}}</b></p>
+          <p>
+            <b>{{comment.text}}</b>
+          </p>
         </div>
       </div>
     </div>
@@ -72,6 +104,8 @@ import { mapActions } from "vuex";
       this.getVotes();
       this.getUserVote();
       this.getAllComments();
+      this.checkWatchList();
+      this.getDefaultWatchList();
     },
     data () {
       return {
@@ -87,14 +121,18 @@ import { mapActions } from "vuex";
         pages: [],
         count_comments: null,
         next_url: null,
-        // previous_url: null,
         new_text: '',
+        onWatchList: null,
+        messageWatchList: null,
+        item_id:null,
+        default_id: null,
       }
     },
     methods: {
       ...mapActions("genre", ["getGenre"]),
       ...mapActions("votes", ["getMovieVotes", "getUVote", "createVote", "updateVote", "deleteVote"]),
       ...mapActions("comment", ["getMovieComments", "getNextPage", "deleteSpecComment", "createNewComment"]),
+      ...mapActions("watchList", ["getDefault","checkMovieWatchList", "deleteItemWatchList", "addItemWatchList"]),
       async foundGenre(){
         const data = await this.getGenre(this.genre_id);
         this.name_genre = data.name;
@@ -180,10 +218,10 @@ import { mapActions } from "vuex";
     },
       async nextPage() {
         const data = await this.getNextPage(this.next_url);
-        this.getData(data.data, data.next_page_url, data.prev_page_url);
+        this.getData(data.data, data.next_page_url);
         this.page++;
       },
-      getData(data, next_page_url, prev_page_url) {
+      getData(data, next_page_url) {
         this.comments = [].concat.apply(this.comments, data);
         this.next_url = next_page_url;
       },
@@ -198,6 +236,27 @@ import { mapActions } from "vuex";
           this.getAllComments();
           this.new_text = '';  
         }    
+      },
+      async checkWatchList(){
+        const fData = {'user': this.user_id, 'movie': this.movie_id};
+        const data = await this.checkMovieWatchList(fData);
+        console.log(data);
+        this.onWatchList = data.result;
+        this.messageWatchList = data.status;
+        this.item_id = data.id;
+      },
+      async deleteItem(){
+        const data = await this.deleteItemWatchList(this.item_id);
+        this.onWatchList = false;
+      },
+      async addItem(){
+        const fData ={"movies_id": this.movie_id, "watch_lists_id": this.default_id};
+        const data = await this.addItemWatchList(fData);
+        this.checkWatchList();
+      },
+      async getDefaultWatchList(){
+        const data = await this.getDefault(this.user_id);
+        this.default_id = data.id;
       },
     },
     computed: {
@@ -229,14 +288,13 @@ import { mapActions } from "vuex";
   margin: 20px auto;
 }
 
-.comment{
+.comment {
   border-style: solid;
   border-color: #42b983;
-  width:50%;
-  margin-left:25%;
+  width: 50%;
+  margin-left: 25%;
 }
-.single{
+.single {
   border: 1px solid black;
 }
-
 </style>

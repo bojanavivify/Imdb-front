@@ -4,20 +4,15 @@ import movies from "./movies";
 import genre from "./genre";
 import votes from "./votes";
 import comment from "./comment";
-
+import watchList from "./watchList";
 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
     auth,
     movies,
     genre,
     votes,
-    comment
+    comment,
+    watchList
   }
 })
