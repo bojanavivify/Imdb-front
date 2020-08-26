@@ -1,16 +1,23 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
 export default {
     namespaced: true,
     state: {
-        moviesData: null
+        moviesData: null,
+        relatedMovies: null
     },
     getters: {
-        movies: state => state.moviesData
+        movies: state => state.moviesData,
+        relatedMovies: state => state.relatedMovies
     },
     mutations: {
         setMoviesData(state, movies) {
             state.moviesData = movies;
+        },
+
+        setRelatedMovies(state,relatedMovies){
+            state.relatedMovies = relatedMovies;
         }
     },
     actions: {
@@ -82,6 +89,30 @@ export default {
                 (error) => {
                   return error.response.data.message;
                 })
+          },
+
+          findRelatedMovies({commit},id){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_API_URL + "movies/related/" + id, { headers })
+                .then(function (response) {
+                    commit("setRelatedMovies", response.data);
+                })
+                .catch(() => {
+                    console.log("error")
+                });
+          },
+
+          findOneMovie({commit},movie){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_API_URL + "movies/" + movie, { headers })
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(() => {
+                    console.log("error")
+                });
           },
     }
 };

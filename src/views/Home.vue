@@ -114,15 +114,7 @@ export default {
     getMovie(oneMovie) {
       const path = "/movie/" + oneMovie.title;
       this.$router.push({
-        path: path,
-        params: {
-          title: oneMovie.title,
-          description: oneMovie.description,
-          image_url: oneMovie.image_url,
-          genre_id: oneMovie.genre_id,
-          movie_id: oneMovie.id,
-          user_id: this.user_id,
-        },
+        path: path
       });
     },
     setPages() {
