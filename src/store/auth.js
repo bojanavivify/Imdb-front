@@ -59,7 +59,6 @@ export default {
           return response.data;
         })
         .catch(() => {
-          localStorage.removeItem("authToken");
         });
     },
   }
