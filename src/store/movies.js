@@ -5,11 +5,13 @@ export default {
     namespaced: true,
     state: {
         moviesData: null,
-        relatedMovies: null
+        relatedMovies: null,
+        popularMovies: null
     },
     getters: {
         movies: state => state.moviesData,
-        relatedMovies: state => state.relatedMovies
+        relatedMovies: state => state.relatedMovies,
+        popularMovies: state => state.popularMovies
     },
     mutations: {
         setMoviesData(state, movies) {
@@ -18,7 +20,11 @@ export default {
 
         setRelatedMovies(state,relatedMovies){
             state.relatedMovies = relatedMovies;
-        }
+        },
+
+        setPopularMovies(state,popularMovies){
+            state.popularMovies = popularMovies;
+        },
     },
     actions: {
         getMovies({commit}) {
@@ -109,6 +115,18 @@ export default {
                 .get(process.env.VUE_APP_API_URL + "movies/" + movie, { headers })
                 .then(function (response) {
                     return response.data;
+                })
+                .catch(() => {
+                    console.log("error")
+                });
+          },
+
+          findPopularMovies({commit}){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_API_URL + "movies/popular/find", { headers })
+                .then(function (response) {
+                    commit("setPopularMovies", response.data);
                 })
                 .catch(() => {
                     console.log("error")
