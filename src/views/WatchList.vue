@@ -131,6 +131,9 @@
 </script>
 
 <style>
+.watch-list{
+  margin-top:50px;
+}
 .left-text {
   display: table-cell;
   vertical-align: middle;

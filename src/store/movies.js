@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import axios from "axios";
+const qs = require('querystring');
 
 export default {
     namespaced: true,
@@ -80,7 +81,6 @@ export default {
         },
 
         incrementMovieView({ commit }, data) {
-            const qs = require('querystring')
             const headers = {
               'Authorization': 'Bearer ' + localStorage.getItem("authToken"),
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -131,6 +131,22 @@ export default {
                 .catch(() => {
                     console.log("error")
                 });
+          },
+
+          createMovie({ commit }, data) {
+            const headers = {
+              'Authorization': 'Bearer ' + localStorage.getItem("authToken"),
+              'Content-Type': 'application/x-www-form-urlencoded'
+            };
+      
+            return axios
+              .post(process.env.VUE_APP_API_URL + "movies", qs.stringify(data), { headers })
+              .then(response => {
+                return response.data;
+              },
+                (error) => {
+                  return error.response.data.message;
+                })
           },
     }
 };
