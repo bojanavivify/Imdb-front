@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
 export default {
@@ -36,7 +37,7 @@ export default {
                 return response.data;
             })
             .catch((error) => {
-                console.log(error)
+                console.error(error)
             });
     },
     getItems({commit}, id) {
