@@ -84,10 +84,12 @@
         this.getDefaultList();
         this.getWatchLists();
       },
+
       async getWatchLists(){
         const data = await this.findAllWatchLists(this.user_id);
         this.watchLists = data;
       },
+
       async getDefaultList() {
         const data = await this.getDefaultItems(this.user_id);
         this.items = data;
@@ -98,9 +100,10 @@
         ? value
         : value.substring(0, length) + "...";
       },
+
       async updateItem(status,id){
         const fData ={"item_id": id, "status":status};
-        const data = await this.changeItem(fData);
+        await this.changeItem(fData);
         this.getDefaultList();
       },
       async openWatchList(item){
@@ -114,7 +117,7 @@
         });
       },
       async removeWatchList(id){
-        const data = await this.deleteWatchList(id);
+        await this.deleteWatchList(id);
         this.getWatchLists();
       },
 

@@ -1,44 +1,55 @@
 <template>
-  <h1>Create new watch list</h1>
-  <div v-show="first" class="card-c">
-    <div class="a">
-      <div style="padding-top:20px;" class="form-group">
-        <label>Title</label>
-        <input type="text" class="form-control form-control-lg" v-model="title" />
-        <div class="form__error" v-if="title == ''">*This field is required.</div>
-      </div>
-
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" class="form-control form-control-lg" v-model="description" />
-        <div class="form__error" v-if="description == ''">*This field is required.</div>
-      </div>
-
-      <input style="margin-bottom:20px;" type="checkbox" v-model="checkbox"/> Public
-
-       <button style="margin-bottom:20px;" class="btn btn-dark btn-lg btn-block" @click="create" 
-      :disabled="title.length<1 || description<1">Create</button>
-    </div>
-  </div>
-  <div v-show="!first" class="card-c">
-    <div class="a">
-      <button style="margin-top:20px;" @click="done" class="btn btn-success">Done</button>
-      <p>Title: {{created_title}}</p>
-      <p>Description: {{created_desc}}</p>
-      <div v-show="items!=null">
-        <p>Movies:</p>
-        <div @click="removeItem(i.id)" class="movie" v-for="i in items" :key="i">
-          <h3>{{i.title}}</h3>
-          <p>{{trucateText(i.description)}}</p>
-          <img class="image-a" v-bind:src="i.image_url" />
+  <div>
+    <h1>Create new watch list</h1>
+    <div v-show="first" class="card-c">
+      <div class="a">
+        <div style="padding-top:20px;" class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control form-control-lg" v-model="title" />
+          <div class="form__error" v-if="title == ''">*This field is required.</div>
         </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control form-control-lg" v-model="description" />
+          <div class="form__error" v-if="description == ''">*This field is required.</div>
+        </div>
+
+        <input style="margin-bottom:20px;" type="checkbox" v-model="checkbox" />
+ Public
+        <button
+          style="margin-bottom:20px;"
+          class="btn btn-dark btn-lg btn-block"
+          @click="create"
+          :disabled="title.length<1 || description<1"
+        >Create</button>
       </div>
-      <p>Add movies:</p>
-      <input class="menu" type="text" v-model="search" />
-      <div @click="addMovieWatchList(movie.id)" class="movie" v-for="movie in movies" :key="movie">
-        <h3>{{movie.title}}</h3>
-        <p>{{trucateText(movie.description)}}</p>
-        <img class="image-a" v-bind:src="movie.image_url" />
+    </div>
+    <div v-show="!first" class="card-c">
+      <div class="a">
+        <button style="margin-top:20px;" @click="done" class="btn btn-success">Done</button>
+        <p>Title: {{created_title}}</p>
+        <p>Description: {{created_desc}}</p>
+        <div v-show="items!=null">
+          <p>Movies:</p>
+          <div @click="removeItem(i.id)" class="movie" v-for="i in items" :key="i">
+            <h3>{{i.title}}</h3>
+            <p>{{trucateText(i.description)}}</p>
+            <img class="image-a" v-bind:src="i.image_url" />
+          </div>
+        </div>
+        <p>Add movies:</p>
+        <input class="menu" type="text" v-model="search" />
+        <div
+          @click="addMovieWatchList(movie.id)"
+          class="movies"
+          v-for="movie in movies"
+          :key="movie"
+        >
+          <h3>{{movie.title}}</h3>
+          <p>{{trucateText(movie.description)}}</p>
+          <img class="image-a" v-bind:src="movie.image_url" />
+        </div>
       </div>
     </div>
   </div>
@@ -103,7 +114,7 @@
       },
       async addMovieWatchList(id){
         const fData ={"movies_id": id, "watch_lists_id": this.created_id};
-        const data = await this.addItemWatchList(fData);
+        await this.addItemWatchList(fData);
         this.getWatchListItems();
       },
 
@@ -118,7 +129,7 @@
         });
       },
       async removeItem(id){
-        const data = await this.deleteItemWatchList(id);
+        await this.deleteItemWatchList(id);
         this.getWatchListItems();
       },
     },
@@ -158,7 +169,7 @@
   height: 50px;
 }
 
-.movie{
+.movies {
   border: 3px solid black;
   cursor: pointer;
   margin-top: 20px;

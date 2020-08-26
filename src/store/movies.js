@@ -65,5 +65,23 @@ export default {
                     console.log("error")
                 });
         },
+
+        incrementMovieView({ commit }, data) {
+            const qs = require('querystring')
+            const headers = {
+              'Authorization': 'Bearer ' + localStorage.getItem("authToken"),
+              'Content-Type': 'application/x-www-form-urlencoded'
+            };
+      
+            console.log(commit)
+            return axios
+              .patch(process.env.VUE_APP_API_URL + "movies/increment", qs.stringify(data), { headers })
+              .then(response => {
+                return response.data;
+              },
+                (error) => {
+                  return error.response.data.message;
+                })
+          },
     }
 };
