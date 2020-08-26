@@ -1,17 +1,30 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
 export default {
     namespaced: true,
     state: {
-        moviesData: null
+        moviesData: null,
+        relatedMovies: null,
+        popularMovies: null
     },
     getters: {
-        movies: state => state.moviesData
+        movies: state => state.moviesData,
+        relatedMovies: state => state.relatedMovies,
+        popularMovies: state => state.popularMovies
     },
     mutations: {
         setMoviesData(state, movies) {
             state.moviesData = movies;
-        }
+        },
+
+        setRelatedMovies(state,relatedMovies){
+            state.relatedMovies = relatedMovies;
+        },
+
+        setPopularMovies(state,popularMovies){
+            state.popularMovies = popularMovies;
+        },
     },
     actions: {
         getMovies({commit}) {
@@ -82,6 +95,42 @@ export default {
                 (error) => {
                   return error.response.data.message;
                 })
+          },
+
+          findRelatedMovies({commit},id){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_API_URL + "movies/related/" + id, { headers })
+                .then(function (response) {
+                    commit("setRelatedMovies", response.data);
+                })
+                .catch(() => {
+                    console.log("error")
+                });
+          },
+
+          findOneMovie({commit},movie){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_API_URL + "movies/" + movie, { headers })
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(() => {
+                    console.log("error")
+                });
+          },
+
+          findPopularMovies({commit}){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_API_URL + "movies/popular/find", { headers })
+                .then(function (response) {
+                    commit("setPopularMovies", response.data);
+                })
+                .catch(() => {
+                    console.log("error")
+                });
           },
     }
 };
