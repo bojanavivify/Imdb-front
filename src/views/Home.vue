@@ -1,15 +1,23 @@
 <template>
   <div>
-    <h1 align="center">Imdb for Movies</h1>
-    <br />Search:
-    <input class="menu" type="text" v-model="search" />
-    Filter:
-    <select id="categories" v-model="selectedValue">
-      <option v-for="genre in genres" :key="genre" :value="genre.id">{{ genre.name }}</option>
-    </select>
-    <br />
-    <br />
-    <br />
+    <img src="@/assets/imdb.png"/>
+    <h4 align=center>Popular movies:</h4>
+    <div class="main-related" style="padding-left:300px;">
+      <div class="related" v-for="(value,key) in popularMovies" :key="key">
+        <button @click="clickedPopular(key)" class="btn btn-info">{{key}}</button>
+      </div>
+    </div>
+    <div class="search">
+      <br />Search:
+      <input class="menu" type="text" v-model="search" />
+      Filter:
+      <select id="categories" v-model="selectedValue">
+        <option v-for="genre in genres" :key="genre" :value="genre.id">{{ genre.name }}</option>
+      </select>
+      <br />
+      <br />
+      <br />
+    </div>
     <div class="row">
       <div class="column" v-for="movie in movies" :key="movie">
         <div class="card" style="cursor:pointer;" @click="getMovie(movie)">
@@ -57,12 +65,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import _ from "lodash";
 
 export default {
   name: "Home",
   created() {
+    this.getPopularMovies();
     this.getAllMovies();
     this.getAllGenres();
     this.getUser();
@@ -88,6 +97,7 @@ export default {
       "searchForMovies",
       "getNextPage",
       "filterMovies",
+      "findPopularMovies",
     ]),
     ...mapActions("genre", ["getAllGenre"]),
     ...mapActions("auth", ["getUserData"]),
@@ -114,7 +124,7 @@ export default {
     getMovie(oneMovie) {
       const path = "/movie/" + oneMovie.title;
       this.$router.push({
-        path: path
+        path: path,
       });
     },
     setPages() {
@@ -165,8 +175,18 @@ export default {
       this.next_url = data.next_page_url;
       this.setPages();
     },
+
+    async getPopularMovies() {
+      await this.findPopularMovies();
+    },
+
+    clickedPopular(key){
+      this.$router.push("/movie/" + key);
+    },
   },
-  computed: {},
+  computed: {
+    ...mapGetters("movies", ["popularMovies"]),
+  },
   watch: {
     movies() {
       this.pages = [];
@@ -255,5 +275,8 @@ button.page-link {
 }
 .menu {
   margin-right: 30px;
+}
+.search{
+  margin-top:150px;
 }
 </style>>
