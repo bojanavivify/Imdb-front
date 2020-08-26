@@ -357,6 +357,10 @@ import { mapActions, mapGetters } from "vuex";
   margin-top: 60px;
 }
 
+.movie{
+  margin-top:30px;
+}
+
 .paga {
   padding-left: 600px;
   margin: 20px auto;

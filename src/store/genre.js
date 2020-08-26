@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
 export default {
@@ -8,7 +9,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "genre/" +id, { headers })
+            .get(process.env.VUE_APP_GENRE_URL + "/" +id, { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -20,7 +21,7 @@ export default {
       console.log(commit);
       const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
       return axios
-          .get(process.env.VUE_APP_API_URL + "genre", { headers })
+          .get(process.env.VUE_APP_GENRE_URL , { headers })
           .then(function (response) {
               return response.data;
           })

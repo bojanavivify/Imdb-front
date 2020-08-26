@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import axios from "axios";
+const qs = require('querystring')
 
 export default {
   namespaced: true,
@@ -8,7 +10,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "comments/movies/" +id, { headers })
+            .get(process.env.VUE_APP_COMMENT_GET_URL +id, { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -36,7 +38,7 @@ export default {
 
         console.log(commit)
         return axios
-          .delete(process.env.VUE_APP_API_URL + "comments/" + id, { headers })
+          .delete(process.env.VUE_APP_COMMENT_DELETE_URL + id, { headers })
           .then(response => {
             return response.data;
           },
@@ -46,7 +48,6 @@ export default {
       },
 
       createNewComment({ commit }, data) {
-        const qs = require('querystring')
         const headers = { 
             'Authorization' : 'Bearer ' + localStorage.getItem("authToken"),
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -54,7 +55,7 @@ export default {
 
         console.log(commit)
         return axios
-          .post(process.env.VUE_APP_API_URL + "comments", qs.stringify(data), { headers })
+          .post(process.env.VUE_APP_COMMENT_URL, qs.stringify(data), { headers })
           .then(response => {
             return response.data;
           },

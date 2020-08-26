@@ -7,6 +7,7 @@ import Movie from '../views/Movie.vue'
 import WatchList from '../views/WatchList.vue'
 import CreateWatchList from '../views/CreateWatchList.vue'
 import SeeWatchList from '../views/SeeWatchList.vue'
+import CreateMovie from '../views/CreateMovie.vue'
 
 
 const guest = (to, from, next) => {
@@ -74,6 +75,12 @@ const routes = [
     name: 'CreateWatchList',
     beforeEnter: auth,
     component: CreateWatchList
+  },
+  {
+    path: '/createMovie',
+    name: 'CreateMovie',
+    beforeEnter: auth,
+    component: CreateMovie
   },
 ]
 
