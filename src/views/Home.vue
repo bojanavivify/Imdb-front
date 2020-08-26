@@ -1,53 +1,57 @@
 <template>
-  <h1 align="center">Imdb for Movies</h1>
-  <br />Search:
-  <input class="menu" type="text" v-model="search" />
-  Filter:
-  <select id="categories" v-model="selectedValue">
-    <option v-for="genre in genres" :key="genre" :value="genre.id">{{ genre.name }}</option>
-  </select>
-  <br />
-  <br />
-  <br />
-  <div class="row">
-    <div class="column" v-for="movie in movies" :key="movie">
-      <div class="card" style="cursor:pointer;" @click="getMovie(movie)">
-        <h3>{{movie.title}}</h3>
-        <p>{{trucateText(movie.description)}}</p>
-        <img class="image" v-bind:src="movie.image_url" />
-      </div>
-    </div>
+  <div>
+    <h1 align="center">Imdb for Movies</h1>
+    <br />Search:
+    <input class="menu" type="text" v-model="search" />
+    Filter:
+    <select id="categories" v-model="selectedValue">
+      <option v-for="genre in genres" :key="genre" :value="genre.id">{{ genre.name }}</option>
+    </select>
     <br />
-    <div class="nav">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <button
-              type="button"
-              class="page-link"
-              v-if="page != 1"
-              @click="previousPage()"
-            >Previous</button>
-          </li>
-          <li class="page-item">
-            <button
-              type="button"
-              v-for="pageNumber in pages.slice(page-1, page+5)"
-              :key="pageNumber"
-              class="page-link"
-              @click="specificPage(pageNumber)"
-            >{{pageNumber}}</button>
-          </li>
-          <li class="page-item">
-            <button
-              type="button"
-              @click="nextPage()"
-              v-if="page < pages.length"
-              class="page-link"
-            >Next</button>
-          </li>
-        </ul>
-      </nav>
+    <br />
+    <br />
+    <div class="row">
+      <div class="column" v-for="movie in movies" :key="movie">
+        <div class="card" style="cursor:pointer;" @click="getMovie(movie)">
+          <h3>{{movie.title}}</h3>
+          <p>{{trucateText(movie.description)}}</p>
+          <br />
+          <p>Page view: {{movie.page_view}}</p>
+          <img class="image" v-bind:src="movie.image_url" />
+        </div>
+      </div>
+      <br />
+      <div class="nav">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <button
+                type="button"
+                class="page-link"
+                v-if="page != 1"
+                @click="previousPage()"
+              >Previous</button>
+            </li>
+            <li class="page-item">
+              <button
+                type="button"
+                v-for="pageNumber in pages.slice(page-1, page+5)"
+                :key="pageNumber"
+                class="page-link"
+                @click="specificPage(pageNumber)"
+              >{{pageNumber}}</button>
+            </li>
+            <li class="page-item">
+              <button
+                type="button"
+                @click="nextPage()"
+                v-if="page < pages.length"
+                class="page-link"
+              >Next</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </template>
@@ -152,7 +156,7 @@ export default {
       this.next_url = next_page_url;
       this.previous_url = prev_page_url;
     },
-    searchMovies: _.debounce(function (e) {
+    searchMovies: _.debounce(function () {
       this.findSearchMovies();
     }, 750),
     async findSearchMovies() {
