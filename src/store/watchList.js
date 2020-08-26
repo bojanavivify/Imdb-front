@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import axios from "axios";
+const qs = require('querystring')
 
 export default {
   namespaced: true,
@@ -8,7 +9,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "watchList/items/default/" + id, { headers })
+            .get(process.env.VUE_APP_WATCH_LIST_DEFAULT_ITEMS_URL + id, { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -20,7 +21,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "watchList/default/" + id, { headers })
+            .get(process.env.VUE_APP_WATCH_LIST_DEFAULT_URL + id, { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -32,7 +33,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "watchList/all/" + id, { headers })
+            .get(process.env.VUE_APP_WATCH_LIST_ALL_URL + id, { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -44,7 +45,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "watchList/items/" +id, { headers })
+            .get(process.env.VUE_APP_WATCH_LIST_ITEMS_URL +id, { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -56,7 +57,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "watchList/check/" +data['user'] + "/" + data['movie'], { headers })
+            .get(process.env.VUE_APP_WATCH_LIST_CHECK_MOVIE_URL +data['user'] + "/" + data['movie'], { headers })
             .then(function (response) {
                 return response.data;
             })
@@ -72,7 +73,7 @@ export default {
 
         console.log(commit)
         return axios
-          .delete(process.env.VUE_APP_API_URL + "items/" + id, { headers })
+          .delete(process.env.VUE_APP_WATCH_LIST_ITEM_URL + "/" + id, { headers })
           .then(response => {
             return response.data;
           },
@@ -82,7 +83,6 @@ export default {
       },
 
       addItemWatchList({ commit }, data) {
-        const qs = require('querystring')
         const headers = { 
             'Authorization' : 'Bearer ' + localStorage.getItem("authToken"),
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -90,7 +90,7 @@ export default {
 
         console.log(commit)
         return axios
-          .post(process.env.VUE_APP_API_URL + "items", qs.stringify(data), { headers })
+          .post(process.env.VUE_APP_WATCH_LIST_ITEM_URL , qs.stringify(data), { headers })
           .then(response => {
             return response.data;
           },
@@ -100,7 +100,6 @@ export default {
       },
 
       changeItem({ commit }, data) {
-        const qs = require('querystring')
         const headers = {
           'Authorization': 'Bearer ' + localStorage.getItem("authToken"),
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -108,7 +107,7 @@ export default {
   
         console.log(commit)
         return axios
-          .patch(process.env.VUE_APP_API_URL + "items/change", qs.stringify(data), { headers })
+          .patch(process.env.VUE_APP_WATCH_LIST_ITEM_CHAGE_URL , qs.stringify(data), { headers })
           .then(response => {
             return response.data;
           },
@@ -117,7 +116,6 @@ export default {
             })
       },
       createWatchList({ commit }, data) {
-        const qs = require('querystring')
         const headers = { 
             'Authorization' : 'Bearer ' + localStorage.getItem("authToken"),
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -125,7 +123,7 @@ export default {
 
         console.log(commit)
         return axios
-          .post(process.env.VUE_APP_API_URL + "watchList", qs.stringify(data), { headers })
+          .post(process.env.VUE_APP_WATCH_LIST_URL, qs.stringify(data), { headers })
           .then(response => {
             return response.data;
           },
@@ -141,7 +139,7 @@ export default {
 
         console.log(commit)
         return axios
-          .delete(process.env.VUE_APP_API_URL + "watchList/" + id, { headers })
+          .delete(process.env.VUE_APP_WATCH_LIST_URL + "/" + id, { headers })
           .then(response => {
             return response.data;
           },
@@ -154,7 +152,7 @@ export default {
         console.log(commit);
         const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
         return axios
-            .get(process.env.VUE_APP_API_URL + "watchList/" + id, { headers })
+            .get(process.env.VUE_APP_WATCH_LIST_URL + "/" + id, { headers })
             .then(function (response) {
                 return response.data;
             })
