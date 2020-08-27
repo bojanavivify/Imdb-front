@@ -94,7 +94,6 @@ import { mapActions} from "vuex";
         const data = {"image": this.image, "movie_id":movie_id};
         await this.uploadImageMovie(data);
         this.$router.push("/movie/" + title);
-        
       },
 
     },

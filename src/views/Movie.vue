@@ -33,7 +33,7 @@
         </div>
       </div>
       <p>{{description}}</p>
-      <img :src="image_url" />
+      <img class="movie-img" :src="image_url" />
       <br />
       <div style="margin-top:20px;">
         <div v-show="onWatchList">
@@ -161,7 +161,7 @@ import { mapActions, mapGetters } from "vuex";
       async findMovieImage(id){
         const data = await this.getImageMovie(id);
         console.log(data)
-        this.image_url = data.name;
+        this.image_url = data;
       },
 
       async getUser(){
@@ -393,5 +393,10 @@ import { mapActions, mapGetters } from "vuex";
   width:90%;
   margin-top:20px;
   padding-left:200px;
+}
+
+.movie-img{
+  height: 500px;
+  width: 500px;
 }
 </style>
