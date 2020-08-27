@@ -1,10 +1,12 @@
 <template>
   <div>
     <img src="@/assets/imdb.png"/>
-    <h4 align=center>Popular movies:</h4>
-    <div class="main-related" style="padding-left:300px;">
-      <div class="related" v-for="(value,key) in popularMovies" :key="key">
-        <button @click="clickedPopular(key)" class="btn btn-info">{{key}}</button>
+    <div style="padding-bottom:50px;">
+      <h4 align=center>Popular movies:</h4>
+      <div class="main-related" style="padding-left:300px;">
+        <div class="related" v-for="(value,key) in popularMovies" :key="key">
+          <button @click="clickedPopular(key)" class="btn btn-info">{{key}}</button>
+        </div>
       </div>
     </div>
     <div class="search">

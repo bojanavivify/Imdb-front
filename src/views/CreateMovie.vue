@@ -91,8 +91,10 @@ import { mapActions} from "vuex";
         reader.readAsDataURL(file);
       },
       async uploadImage(movie_id, title){
-        const data = {"image": this.image, "movie_id":movie_id};
-        await this.uploadImageMovie(data);
+        var formData = new FormData();
+        formData.append("image", this.image);
+        formData.append("movie_id",movie_id);
+        await this.uploadImageMovie(formData);
         this.$router.push("/movie/" + title);
       },
 

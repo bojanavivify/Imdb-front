@@ -9,7 +9,7 @@ export default {
         console.log(commit);
         const headers = { 
             'Authorization': 'Bearer ' + localStorage.getItem("authToken"),
-            };
+            'Content-Type' : 'multipart/form-data'};
         return axios
             .post(process.env.VUE_APP_IMAGE_URL, data, { headers })
             .then(function (response) {
