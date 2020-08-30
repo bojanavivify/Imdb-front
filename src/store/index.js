@@ -5,6 +5,8 @@ import genre from "./genre";
 import votes from "./votes";
 import comment from "./comment";
 import watchList from "./watchList";
+import image from "./image";
+
 
 export default createStore({
   modules: {
@@ -13,6 +15,7 @@ export default createStore({
     genre,
     votes,
     comment,
-    watchList
+    watchList,
+    image,
   }
 })
