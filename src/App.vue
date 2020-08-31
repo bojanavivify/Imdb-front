@@ -5,6 +5,7 @@
       <router-link to="/register" v-show="login">Register</router-link>
       <router-link to="/watchlist" v-show="logout">Watch list</router-link>|
       <router-link to="/createMovie" v-show="logout">Create Movie</router-link>|
+      <router-link to="/createMovieOMDB" v-show="logout">Create Movie OMDB</router-link>|
       <router-link to="/logout" v-show="logout">Logout</router-link>
       <router-link to="/login" v-show="login">Login</router-link>    
     </div>
