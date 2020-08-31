@@ -39,8 +39,13 @@
       ...mapActions('movies',["createMovieOMDB"]),
       async create(){
         const fData = {"title": this.title};
-        await this.createMovieOMDB(fData);
-        this.$router.push("/movie/" + this.title);
+        const result = await this.createMovieOMDB(fData);
+        console.log(typeof result)
+        if(typeof result == 'string'){
+          return alert(result);
+        }else{
+          this.$router.push("/movie/" + this.title);
+        }
 
       },
 
