@@ -149,5 +149,20 @@ export default {
                   return error.response.data.message;
                 })
           },
+
+          createMovieOMDB({ commit }, data) {
+            const headers = {
+              'Authorization': 'Bearer ' + localStorage.getItem("authToken"),
+              'Content-Type': 'application/x-www-form-urlencoded'
+            };
+            return axios
+              .post(process.env.VUE_APP_MOVIE_OMDB_URL, qs.stringify(data), { headers })
+              .then(response => {
+                return response.data;
+              },
+                (error) => {
+                  return error.response.data.message;
+                })
+          },
     }
 };

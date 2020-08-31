@@ -8,6 +8,8 @@ import WatchList from '../views/WatchList.vue'
 import CreateWatchList from '../views/CreateWatchList.vue'
 import SeeWatchList from '../views/SeeWatchList.vue'
 import CreateMovie from '../views/CreateMovie.vue'
+import CreateMovieOMDB from '../views/CreateMovieOMDB.vue'
+
 
 
 const guest = (to, from, next) => {
@@ -81,6 +83,12 @@ const routes = [
     name: 'CreateMovie',
     beforeEnter: auth,
     component: CreateMovie
+  },
+  {
+    path: '/createMovieOMDB',
+    name: 'CreateMovieOMDB',
+    beforeEnter: auth,
+    component: CreateMovieOMDB
   },
 ]
 
