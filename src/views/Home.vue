@@ -17,6 +17,9 @@
         <option v-for="genre in genres" :key="genre" :value="genre.id">{{ genre.name }}</option>
       </select>
       <br />
+      <label style="padding-top:30px;padding-right:10px;">Search Elastic:</label>
+      <input class="menu" type="text" v-model="searchElastic" @keyup.enter="searchElasticResult()" />
+      <br />
       <br />
       <br />
     </div>
@@ -31,7 +34,7 @@
         </div>
       </div>
       <br />
-      <div class="nav">
+      <div class="nav" v-show="showNav">
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item">
@@ -91,6 +94,8 @@ export default {
       genres: null,
       selectedValue: null,
       user_id: null,
+      searchElastic: '',
+      showNav: true,
     };
   },
   methods: {
@@ -100,6 +105,7 @@ export default {
       "getNextPage",
       "filterMovies",
       "findPopularMovies",
+      "findElastic"
     ]),
     ...mapActions("genre", ["getAllGenre"]),
     ...mapActions("auth", ["getUserData"]),
@@ -184,6 +190,17 @@ export default {
 
     clickedPopular(key){
       this.$router.push("/movie/" + key);
+    },
+    async searchElasticResult(){
+      if(this.searchElastic == ''){
+        this.getAllMovies();
+        this.showNav = true;
+      }else{
+        const data = await this.findElastic(this.searchElastic);
+        this.movies = data;
+        this.showNav = false;
+      }
+      
     },
   },
   computed: {

@@ -74,6 +74,7 @@ import { mapActions} from "vuex";
       async create(){
         const fData = {"title": this.title, "description":this.description,"genre_id":this.genre_id};
         const data = await this.createMovie(fData);
+        console.log(data);
         this.uploadImage(data.id, data.title);
       },
       onImageChange(e) {
