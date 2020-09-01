@@ -164,5 +164,17 @@ export default {
                   return error.response.data.message;
                 })
           },
+
+          findElastic({commit},search){
+            const headers = { Authorization: 'Bearer ' + localStorage.getItem("authToken") };
+            return axios
+                .get(process.env.VUE_APP_MOVIE_SEARCH_ELASTIC_URL + search, { headers })
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch((response) => {
+                    console.log(response)
+                });
+          },
     }
 };
