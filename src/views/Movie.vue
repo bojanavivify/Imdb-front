@@ -102,12 +102,14 @@
 
 <script lang="js">
 import { mapActions, mapGetters } from "vuex";
+import Pusher from 'pusher-js'
 
   export default  {
     name: 'Movie',
     props: [],
     mounted () {
       this.getMovie();
+      this.bindChannels();
     },
     data () {
       return {
@@ -290,8 +292,7 @@ import { mapActions, mapGetters } from "vuex";
         if(this.new_text!= ''){
           const fData ={"text": this.new_text, "user_id":this.user_id,"movies_id":this.movie_id};
           await this.createNewComment(fData);
-          this.getAllComments();
-          this.new_text = '';  
+          this.new_text = '';
         }    
       },
 
@@ -333,9 +334,24 @@ import { mapActions, mapGetters } from "vuex";
         const data = await this.findOneMovie(title);
         this.$router.push("/movie/"+ data.title);
       },
+
+      bindChannels(){
+        let vm = this
+        var pusher = new Pusher('42541e89ba5d593be445', {
+          cluster: 'mt1'
+        });
+
+         var channel = pusher.subscribe('comment-channel');
+        channel.bind('channel-app', function(data) {
+          vm.comments.push(data['comment']);
+          console.log(data);
+        });
+
+      },
+
     },
     computed: {
-      ...mapGetters('movies',['relatedMovies'])
+      ...mapGetters('movies',['relatedMovies']),
 
     },
     watch: {

@@ -11,6 +11,8 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
+    "laravel-echo": "^1.8.1",
+    "pusher-js": "^7.0.0",
     "sass": "^1.26.10",
     "vue": "^3.0.0-0",
     "vue-like-dislike-buttons": "^0.2.4",
